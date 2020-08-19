@@ -13,6 +13,12 @@ export interface UserPrefsAPI {
     preferences: PreferencesApi
 }
 
+export interface UserPrefsToolsAPI {
+    getUsersThatCanIManageUserPrefs: (key: string, writeaccess: boolean, active: boolean) => Promise<any>
+    getUserDetails: (userId: any) => Promise<any>
+    getUsersThatCanIManage: (withPrivilege: string, active: boolean) => Promise<any>
+}
+
 export default class ModularusUserPrefsAPI extends SApi {
     loaded = false
     apiClient: UserPrefsAPI
