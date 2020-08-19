@@ -3,6 +3,7 @@ import Axios, { AxiosStatic } from 'axios'
 
 import { PreferencesApi } from './api'
 import { Configuration } from './configuration'
+import { ToolsAPI } from './tools'
 
 declare global {
     interface Window { Modularus: Modularus; }
@@ -10,13 +11,21 @@ declare global {
 
 export interface UserPrefsAPI {
     usedAxios: AxiosStatic,
-    preferences: PreferencesApi
+    preferences: PreferencesApi,
+    tools: ToolsAPI
 }
 
 export default class ModularusUserPrefsAPI extends SApi {
     loaded = false
     apiClient: UserPrefsAPI
     loadedInterceptors: any[] = []
+
+    toolsClient: ToolsAPI
+
+    constructor(tools: ToolsAPI) {
+        super()
+        this.toolsClient = tools
+    }
 
     getApiIdentifier(): String {
         return "UsermanagerAPI"
@@ -29,7 +38,8 @@ export default class ModularusUserPrefsAPI extends SApi {
 
         this.apiClient = {
             usedAxios: Axios,
-            preferences: new PreferencesApi(configuration, baseURL, Axios)
+            preferences: new PreferencesApi(configuration, baseURL, Axios),
+            tools: this.toolsClient
         } as UserPrefsAPI
 
         this.loaded = true
