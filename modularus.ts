@@ -19,7 +19,7 @@ export default class ModularusUserPrefsAPI extends SApi {
     loadedInterceptors: any[] = []
 
     getApiIdentifier(): String {
-        return "UsermanagerAPI"
+        return "UserprefsAPI"
     }
     async isLoaded(): Promise<boolean> {
         return this.loaded
