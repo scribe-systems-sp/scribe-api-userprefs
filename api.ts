@@ -171,10 +171,10 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delGlobalPrefApiV1PreferencesGlobalDelete: async (key: string, options: any = {}): Promise<RequestArgs> => {
+        apiV1PreferencesDelGlobalPref: async (key: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
             if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling delGlobalPrefApiV1PreferencesGlobalDelete.');
+                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesDelGlobalPref.');
             }
             const localVarPath = `/userprefs/api/v1/preferences/global`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -226,14 +226,14 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delUserPrefApiV1PreferencesUserDelete: async (key: string, userId: number, options: any = {}): Promise<RequestArgs> => {
+        apiV1PreferencesDelUserPref: async (key: string, userId: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
             if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling delUserPrefApiV1PreferencesUserDelete.');
+                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesDelUserPref.');
             }
             // verify required parameter 'userId' is not null or undefined
             if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling delUserPrefApiV1PreferencesUserDelete.');
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling apiV1PreferencesDelUserPref.');
             }
             const localVarPath = `/userprefs/api/v1/preferences/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -288,10 +288,10 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGlobalPrefApiV1PreferencesGlobalGet: async (key: string, options: any = {}): Promise<RequestArgs> => {
+        apiV1PreferencesGetGlobalPref: async (key: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
             if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling getGlobalPrefApiV1PreferencesGlobalGet.');
+                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesGetGlobalPref.');
             }
             const localVarPath = `/userprefs/api/v1/preferences/global`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -343,14 +343,14 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserPrefApiV1PreferencesUserGet: async (key: string, userId: number, options: any = {}): Promise<RequestArgs> => {
+        apiV1PreferencesGetUserPref: async (key: string, userId: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
             if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling getUserPrefApiV1PreferencesUserGet.');
+                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesGetUserPref.');
             }
             // verify required parameter 'userId' is not null or undefined
             if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling getUserPrefApiV1PreferencesUserGet.');
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling apiV1PreferencesGetUserPref.');
             }
             const localVarPath = `/userprefs/api/v1/preferences/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -405,10 +405,10 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setGlobalPrefApiV1PreferencesGlobalPut: async (globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
+        apiV1PreferencesSetGlobalPref: async (globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'globalEntryPydanticWithOverride' is not null or undefined
             if (globalEntryPydanticWithOverride === null || globalEntryPydanticWithOverride === undefined) {
-                throw new RequiredError('globalEntryPydanticWithOverride','Required parameter globalEntryPydanticWithOverride was null or undefined when calling setGlobalPrefApiV1PreferencesGlobalPut.');
+                throw new RequiredError('globalEntryPydanticWithOverride','Required parameter globalEntryPydanticWithOverride was null or undefined when calling apiV1PreferencesSetGlobalPref.');
             }
             const localVarPath = `/userprefs/api/v1/preferences/global`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -459,10 +459,10 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setUserPrefApiV1PreferencesUserPut: async (userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
+        apiV1PreferencesSetUserPref: async (userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'userEntryPydanticWithOverride' is not null or undefined
             if (userEntryPydanticWithOverride === null || userEntryPydanticWithOverride === undefined) {
-                throw new RequiredError('userEntryPydanticWithOverride','Required parameter userEntryPydanticWithOverride was null or undefined when calling setUserPrefApiV1PreferencesUserPut.');
+                throw new RequiredError('userEntryPydanticWithOverride','Required parameter userEntryPydanticWithOverride was null or undefined when calling apiV1PreferencesSetUserPref.');
             }
             const localVarPath = `/userprefs/api/v1/preferences/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -522,8 +522,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async delGlobalPrefApiV1PreferencesGlobalDelete(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).delGlobalPrefApiV1PreferencesGlobalDelete(key, options);
+        async apiV1PreferencesDelGlobalPref(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesDelGlobalPref(key, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -537,8 +537,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async delUserPrefApiV1PreferencesUserDelete(key: string, userId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).delUserPrefApiV1PreferencesUserDelete(key, userId, options);
+        async apiV1PreferencesDelUserPref(key: string, userId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesDelUserPref(key, userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -551,8 +551,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getGlobalPrefApiV1PreferencesGlobalGet(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Entry>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).getGlobalPrefApiV1PreferencesGlobalGet(key, options);
+        async apiV1PreferencesGetGlobalPref(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Entry>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesGetGlobalPref(key, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -566,8 +566,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserPrefApiV1PreferencesUserGet(key: string, userId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserEntryPydantic>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).getUserPrefApiV1PreferencesUserGet(key, userId, options);
+        async apiV1PreferencesGetUserPref(key: string, userId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserEntryPydantic>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesGetUserPref(key, userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -580,8 +580,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async setGlobalPrefApiV1PreferencesGlobalPut(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).setGlobalPrefApiV1PreferencesGlobalPut(globalEntryPydanticWithOverride, options);
+        async apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -594,8 +594,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async setUserPrefApiV1PreferencesUserPut(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).setUserPrefApiV1PreferencesUserPut(userEntryPydanticWithOverride, options);
+        async apiV1PreferencesSetUserPref(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -617,8 +617,8 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delGlobalPrefApiV1PreferencesGlobalDelete(key: string, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).delGlobalPrefApiV1PreferencesGlobalDelete(key, options).then((request) => request(axios, basePath));
+        apiV1PreferencesDelGlobalPref(key: string, options?: any): AxiosPromise<any> {
+            return PreferencesApiFp(configuration).apiV1PreferencesDelGlobalPref(key, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -628,8 +628,8 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delUserPrefApiV1PreferencesUserDelete(key: string, userId: number, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).delUserPrefApiV1PreferencesUserDelete(key, userId, options).then((request) => request(axios, basePath));
+        apiV1PreferencesDelUserPref(key: string, userId: number, options?: any): AxiosPromise<any> {
+            return PreferencesApiFp(configuration).apiV1PreferencesDelUserPref(key, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get global config preference associated with provided key.
@@ -638,8 +638,8 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getGlobalPrefApiV1PreferencesGlobalGet(key: string, options?: any): AxiosPromise<Entry> {
-            return PreferencesApiFp(configuration).getGlobalPrefApiV1PreferencesGlobalGet(key, options).then((request) => request(axios, basePath));
+        apiV1PreferencesGetGlobalPref(key: string, options?: any): AxiosPromise<Entry> {
+            return PreferencesApiFp(configuration).apiV1PreferencesGetGlobalPref(key, options).then((request) => request(axios, basePath));
         },
         /**
          * Get user config preference associated with provided key.
@@ -649,8 +649,8 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserPrefApiV1PreferencesUserGet(key: string, userId: number, options?: any): AxiosPromise<UserEntryPydantic> {
-            return PreferencesApiFp(configuration).getUserPrefApiV1PreferencesUserGet(key, userId, options).then((request) => request(axios, basePath));
+        apiV1PreferencesGetUserPref(key: string, userId: number, options?: any): AxiosPromise<UserEntryPydantic> {
+            return PreferencesApiFp(configuration).apiV1PreferencesGetUserPref(key, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Stores global preferance in global config database
@@ -659,8 +659,8 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setGlobalPrefApiV1PreferencesGlobalPut(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).setGlobalPrefApiV1PreferencesGlobalPut(globalEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
+        apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
+            return PreferencesApiFp(configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
         },
         /**
          * Stores user preferance in user config database
@@ -669,8 +669,8 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setUserPrefApiV1PreferencesUserPut(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).setUserPrefApiV1PreferencesUserPut(userEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
+        apiV1PreferencesSetUserPref(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
+            return PreferencesApiFp(configuration).apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -690,8 +690,8 @@ export class PreferencesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PreferencesApi
      */
-    public delGlobalPrefApiV1PreferencesGlobalDelete(key: string, options?: any) {
-        return PreferencesApiFp(this.configuration).delGlobalPrefApiV1PreferencesGlobalDelete(key, options).then((request) => request(this.axios, this.basePath));
+    public apiV1PreferencesDelGlobalPref(key: string, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesDelGlobalPref(key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -703,8 +703,8 @@ export class PreferencesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PreferencesApi
      */
-    public delUserPrefApiV1PreferencesUserDelete(key: string, userId: number, options?: any) {
-        return PreferencesApiFp(this.configuration).delUserPrefApiV1PreferencesUserDelete(key, userId, options).then((request) => request(this.axios, this.basePath));
+    public apiV1PreferencesDelUserPref(key: string, userId: number, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesDelUserPref(key, userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -715,8 +715,8 @@ export class PreferencesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PreferencesApi
      */
-    public getGlobalPrefApiV1PreferencesGlobalGet(key: string, options?: any) {
-        return PreferencesApiFp(this.configuration).getGlobalPrefApiV1PreferencesGlobalGet(key, options).then((request) => request(this.axios, this.basePath));
+    public apiV1PreferencesGetGlobalPref(key: string, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesGetGlobalPref(key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -728,8 +728,8 @@ export class PreferencesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PreferencesApi
      */
-    public getUserPrefApiV1PreferencesUserGet(key: string, userId: number, options?: any) {
-        return PreferencesApiFp(this.configuration).getUserPrefApiV1PreferencesUserGet(key, userId, options).then((request) => request(this.axios, this.basePath));
+    public apiV1PreferencesGetUserPref(key: string, userId: number, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesGetUserPref(key, userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -740,8 +740,8 @@ export class PreferencesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PreferencesApi
      */
-    public setGlobalPrefApiV1PreferencesGlobalPut(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any) {
-        return PreferencesApiFp(this.configuration).setGlobalPrefApiV1PreferencesGlobalPut(globalEntryPydanticWithOverride, options).then((request) => request(this.axios, this.basePath));
+    public apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -752,8 +752,8 @@ export class PreferencesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PreferencesApi
      */
-    public setUserPrefApiV1PreferencesUserPut(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any) {
-        return PreferencesApiFp(this.configuration).setUserPrefApiV1PreferencesUserPut(userEntryPydanticWithOverride, options).then((request) => request(this.axios, this.basePath));
+    public apiV1PreferencesSetUserPref(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

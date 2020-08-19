@@ -1,2 +1,4 @@
 modularus.ts
 tools.ts
+.npmignore
+.gitignore
