@@ -1,0 +1,3 @@
+.openapi-generator-ignore
+.openapi-generator
+git_push.sh
