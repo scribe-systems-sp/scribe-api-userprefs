@@ -17,6 +17,8 @@ export interface UserPrefsToolsAPI {
     getUsersThatCanIManageUserPrefs: (key: string, writeaccess: boolean, active: boolean) => Promise<any>
     getUserDetails: (userId: any) => Promise<any>
     getUsersThatCanIManage: (withPrivilege: string, active: boolean) => Promise<any>
+    saveUserPref: (value: any, key: string, user_id: number, override: boolean) => Promise<any>
+    getUserPref: (key: string, userId: number) => Promise<any>
 }
 
 export default class ModularusUserPrefsAPI extends SApi {
