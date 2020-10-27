@@ -1,6 +1,6 @@
 {
   "name": "@scribe-systems/scribe-api-userprefs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "API for scribe userprefs",
   "main": "index.ts",
   "scripts": {

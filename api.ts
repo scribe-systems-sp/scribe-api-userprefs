@@ -79,6 +79,25 @@ export interface HTTPValidationError {
 /**
  * 
  * @export
+ * @interface UserEntryBatchGet
+ */
+export interface UserEntryBatchGet {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserEntryBatchGet
+     */
+    key: string;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof UserEntryBatchGet
+     */
+    userIds: Array<number>;
+}
+/**
+ * 
+ * @export
  * @interface UserEntryPydantic
  */
 export interface UserEntryPydantic {
@@ -399,6 +418,60 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
+         * Get user config preference associated with provided key.
+         * @summary Get User Pref Batch
+         * @param {UserEntryBatchGet} userEntryBatchGet 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesGetUserPrefBatch: async (userEntryBatchGet: UserEntryBatchGet, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userEntryBatchGet' is not null or undefined
+            if (userEntryBatchGet === null || userEntryBatchGet === undefined) {
+                throw new RequiredError('userEntryBatchGet','Required parameter userEntryBatchGet was null or undefined when calling apiV1PreferencesGetUserPrefBatch.');
+            }
+            const localVarPath = `/userprefs/api/v1/preferences/batchuser`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof userEntryBatchGet !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(userEntryBatchGet !== undefined ? userEntryBatchGet : {}) : (userEntryBatchGet || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Stores global preferance in global config database
          * @summary Set Global Pref
          * @param {GlobalEntryPydanticWithOverride} globalEntryPydanticWithOverride 
@@ -453,7 +526,7 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
-         * Stores user preferance in user config database
+         * Stores user preferance in user config database  User want to write to VACATIONREQUEST on user_id=3 1. User have to have privilege userprefs_user_writeself_VACATIONREQUEST and has to be logged as user_id=3 2. User have to have privilege userprefs_user_write_VACATIONREQUEST_ROLEX and user_id=3 must be in role ROLEX
          * @summary Set User Pref
          * @param {UserEntryPydanticWithOverride} userEntryPydanticWithOverride 
          * @param {*} [options] Override http request option.
@@ -574,6 +647,20 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
             };
         },
         /**
+         * Get user config preference associated with provided key.
+         * @summary Get User Pref Batch
+         * @param {UserEntryBatchGet} userEntryBatchGet 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PreferencesGetUserPrefBatch(userEntryBatchGet: UserEntryBatchGet, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserEntryPydantic>>> {
+            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * Stores global preferance in global config database
          * @summary Set Global Pref
          * @param {GlobalEntryPydanticWithOverride} globalEntryPydanticWithOverride 
@@ -588,7 +675,7 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
             };
         },
         /**
-         * Stores user preferance in user config database
+         * Stores user preferance in user config database  User want to write to VACATIONREQUEST on user_id=3 1. User have to have privilege userprefs_user_writeself_VACATIONREQUEST and has to be logged as user_id=3 2. User have to have privilege userprefs_user_write_VACATIONREQUEST_ROLEX and user_id=3 must be in role ROLEX
          * @summary Set User Pref
          * @param {UserEntryPydanticWithOverride} userEntryPydanticWithOverride 
          * @param {*} [options] Override http request option.
@@ -653,6 +740,16 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
             return PreferencesApiFp(configuration).apiV1PreferencesGetUserPref(key, userId, options).then((request) => request(axios, basePath));
         },
         /**
+         * Get user config preference associated with provided key.
+         * @summary Get User Pref Batch
+         * @param {UserEntryBatchGet} userEntryBatchGet 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesGetUserPrefBatch(userEntryBatchGet: UserEntryBatchGet, options?: any): AxiosPromise<Array<UserEntryPydantic>> {
+            return PreferencesApiFp(configuration).apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Stores global preferance in global config database
          * @summary Set Global Pref
          * @param {GlobalEntryPydanticWithOverride} globalEntryPydanticWithOverride 
@@ -663,7 +760,7 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
             return PreferencesApiFp(configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
         },
         /**
-         * Stores user preferance in user config database
+         * Stores user preferance in user config database  User want to write to VACATIONREQUEST on user_id=3 1. User have to have privilege userprefs_user_writeself_VACATIONREQUEST and has to be logged as user_id=3 2. User have to have privilege userprefs_user_write_VACATIONREQUEST_ROLEX and user_id=3 must be in role ROLEX
          * @summary Set User Pref
          * @param {UserEntryPydanticWithOverride} userEntryPydanticWithOverride 
          * @param {*} [options] Override http request option.
@@ -733,6 +830,18 @@ export class PreferencesApi extends BaseAPI {
     }
 
     /**
+     * Get user config preference associated with provided key.
+     * @summary Get User Pref Batch
+     * @param {UserEntryBatchGet} userEntryBatchGet 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PreferencesApi
+     */
+    public apiV1PreferencesGetUserPrefBatch(userEntryBatchGet: UserEntryBatchGet, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Stores global preferance in global config database
      * @summary Set Global Pref
      * @param {GlobalEntryPydanticWithOverride} globalEntryPydanticWithOverride 
@@ -745,7 +854,7 @@ export class PreferencesApi extends BaseAPI {
     }
 
     /**
-     * Stores user preferance in user config database
+     * Stores user preferance in user config database  User want to write to VACATIONREQUEST on user_id=3 1. User have to have privilege userprefs_user_writeself_VACATIONREQUEST and has to be logged as user_id=3 2. User have to have privilege userprefs_user_write_VACATIONREQUEST_ROLEX and user_id=3 must be in role ROLEX
      * @summary Set User Pref
      * @param {UserEntryPydanticWithOverride} userEntryPydanticWithOverride 
      * @param {*} [options] Override http request option.
