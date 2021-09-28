@@ -17,6 +17,8 @@ import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
@@ -75,6 +77,50 @@ export interface HTTPValidationError {
      * @memberof HTTPValidationError
      */
     detail?: Array<ValidationError>;
+}
+/**
+ * 
+ * @export
+ * @interface PublicEntry
+ */
+export interface PublicEntry {
+    /**
+     * 
+     * @type {string}
+     * @memberof PublicEntry
+     */
+    key: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof PublicEntry
+     */
+    value?: any | null;
+}
+/**
+ * 
+ * @export
+ * @interface PublicEntryPydanticWithOverride
+ */
+export interface PublicEntryPydanticWithOverride {
+    /**
+     * 
+     * @type {string}
+     * @memberof PublicEntryPydanticWithOverride
+     */
+    key: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof PublicEntryPydanticWithOverride
+     */
+    value?: any | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PublicEntryPydanticWithOverride
+     */
+    overrideFull?: boolean;
 }
 /**
  * 
@@ -192,28 +238,22 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesDelGlobalPref: async (key: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
-            if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesDelGlobalPref.');
-            }
+            assertParamExists('apiV1PreferencesDelGlobalPref', 'key', key)
             const localVarPath = `/userprefs/api/v1/preferences/global`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
             if (key !== undefined) {
                 localVarQueryParameter['key'] = key;
@@ -221,19 +261,53 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Deletes public config preferences associated with provided key
+         * @summary Del Public Pref
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesDelPublicPref: async (key: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'key' is not null or undefined
+            assertParamExists('apiV1PreferencesDelPublicPref', 'key', key)
+            const localVarPath = `/userprefs/api/v1/preferences/public`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (key !== undefined) {
+                localVarQueryParameter['key'] = key;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -247,32 +321,24 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesDelUserPref: async (key: string, userId: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
-            if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesDelUserPref.');
-            }
+            assertParamExists('apiV1PreferencesDelUserPref', 'key', key)
             // verify required parameter 'userId' is not null or undefined
-            if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling apiV1PreferencesDelUserPref.');
-            }
+            assertParamExists('apiV1PreferencesDelUserPref', 'userId', userId)
             const localVarPath = `/userprefs/api/v1/preferences/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
             if (key !== undefined) {
                 localVarQueryParameter['key'] = key;
@@ -284,19 +350,12 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -309,28 +368,22 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesGetGlobalPref: async (key: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
-            if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesGetGlobalPref.');
-            }
+            assertParamExists('apiV1PreferencesGetGlobalPref', 'key', key)
             const localVarPath = `/userprefs/api/v1/preferences/global`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
             if (key !== undefined) {
                 localVarQueryParameter['key'] = key;
@@ -338,19 +391,53 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get public config preference associated with provided key.
+         * @summary Get Public Pref
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesGetPublicPref: async (key: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'key' is not null or undefined
+            assertParamExists('apiV1PreferencesGetPublicPref', 'key', key)
+            const localVarPath = `/userprefs/api/v1/preferences/public`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (key !== undefined) {
+                localVarQueryParameter['key'] = key;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -364,32 +451,24 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesGetUserPref: async (key: string, userId: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
-            if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling apiV1PreferencesGetUserPref.');
-            }
+            assertParamExists('apiV1PreferencesGetUserPref', 'key', key)
             // verify required parameter 'userId' is not null or undefined
-            if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling apiV1PreferencesGetUserPref.');
-            }
+            assertParamExists('apiV1PreferencesGetUserPref', 'userId', userId)
             const localVarPath = `/userprefs/api/v1/preferences/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
             if (key !== undefined) {
                 localVarQueryParameter['key'] = key;
@@ -401,19 +480,12 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -426,48 +498,34 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesGetUserPrefBatch: async (userEntryBatchGet: UserEntryBatchGet, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'userEntryBatchGet' is not null or undefined
-            if (userEntryBatchGet === null || userEntryBatchGet === undefined) {
-                throw new RequiredError('userEntryBatchGet','Required parameter userEntryBatchGet was null or undefined when calling apiV1PreferencesGetUserPrefBatch.');
-            }
+            assertParamExists('apiV1PreferencesGetUserPrefBatch', 'userEntryBatchGet', userEntryBatchGet)
             const localVarPath = `/userprefs/api/v1/preferences/batchuser`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof userEntryBatchGet !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(userEntryBatchGet !== undefined ? userEntryBatchGet : {}) : (userEntryBatchGet || "");
+            localVarRequestOptions.data = serializeDataIfNeeded(userEntryBatchGet, localVarRequestOptions, configuration)
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -480,48 +538,74 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesSetGlobalPref: async (globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'globalEntryPydanticWithOverride' is not null or undefined
-            if (globalEntryPydanticWithOverride === null || globalEntryPydanticWithOverride === undefined) {
-                throw new RequiredError('globalEntryPydanticWithOverride','Required parameter globalEntryPydanticWithOverride was null or undefined when calling apiV1PreferencesSetGlobalPref.');
-            }
+            assertParamExists('apiV1PreferencesSetGlobalPref', 'globalEntryPydanticWithOverride', globalEntryPydanticWithOverride)
             const localVarPath = `/userprefs/api/v1/preferences/global`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof globalEntryPydanticWithOverride !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(globalEntryPydanticWithOverride !== undefined ? globalEntryPydanticWithOverride : {}) : (globalEntryPydanticWithOverride || "");
+            localVarRequestOptions.data = serializeDataIfNeeded(globalEntryPydanticWithOverride, localVarRequestOptions, configuration)
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Stores public preferance in public config database
+         * @summary Set Public Pref
+         * @param {PublicEntryPydanticWithOverride} publicEntryPydanticWithOverride 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesSetPublicPref: async (publicEntryPydanticWithOverride: PublicEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'publicEntryPydanticWithOverride' is not null or undefined
+            assertParamExists('apiV1PreferencesSetPublicPref', 'publicEntryPydanticWithOverride', publicEntryPydanticWithOverride)
+            const localVarPath = `/userprefs/api/v1/preferences/public`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(publicEntryPydanticWithOverride, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -534,48 +618,34 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
          */
         apiV1PreferencesSetUserPref: async (userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'userEntryPydanticWithOverride' is not null or undefined
-            if (userEntryPydanticWithOverride === null || userEntryPydanticWithOverride === undefined) {
-                throw new RequiredError('userEntryPydanticWithOverride','Required parameter userEntryPydanticWithOverride was null or undefined when calling apiV1PreferencesSetUserPref.');
-            }
+            assertParamExists('apiV1PreferencesSetUserPref', 'userEntryPydanticWithOverride', userEntryPydanticWithOverride)
             const localVarPath = `/userprefs/api/v1/preferences/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication OAuth2PasswordBearer required
             // oauth required
-            if (configuration && configuration.accessToken) {
-                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken("OAuth2PasswordBearer", [])
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.query) {
-                query.set(key, options.query[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof userEntryPydanticWithOverride !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(userEntryPydanticWithOverride !== undefined ? userEntryPydanticWithOverride : {}) : (userEntryPydanticWithOverride || "");
+            localVarRequestOptions.data = serializeDataIfNeeded(userEntryPydanticWithOverride, localVarRequestOptions, configuration)
 
             return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -587,6 +657,7 @@ export const PreferencesApiAxiosParamCreator = function (configuration?: Configu
  * @export
  */
 export const PreferencesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PreferencesApiAxiosParamCreator(configuration)
     return {
         /**
          * Deletes global config preferences associated with provided key
@@ -596,11 +667,19 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesDelGlobalPref(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesDelGlobalPref(key, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesDelGlobalPref(key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Deletes public config preferences associated with provided key
+         * @summary Del Public Pref
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PreferencesDelPublicPref(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesDelPublicPref(key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
@@ -611,11 +690,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesDelUserPref(key: string, userId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesDelUserPref(key, userId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesDelUserPref(key, userId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get global config preference associated with provided key.
@@ -625,11 +701,19 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesGetGlobalPref(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Entry>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesGetGlobalPref(key, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesGetGlobalPref(key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Get public config preference associated with provided key.
+         * @summary Get Public Pref
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PreferencesGetPublicPref(key: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PublicEntry>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesGetPublicPref(key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get user config preference associated with provided key.
@@ -640,11 +724,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesGetUserPref(key: string, userId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserEntryPydantic>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesGetUserPref(key, userId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesGetUserPref(key, userId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get user config preference associated with provided key.
@@ -654,11 +735,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesGetUserPrefBatch(userEntryBatchGet: UserEntryBatchGet, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserEntryPydantic>>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Stores global preferance in global config database
@@ -668,11 +746,19 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Stores public preferance in public config database
+         * @summary Set Public Pref
+         * @param {PublicEntryPydanticWithOverride} publicEntryPydanticWithOverride 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PreferencesSetPublicPref(publicEntryPydanticWithOverride: PublicEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesSetPublicPref(publicEntryPydanticWithOverride, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Stores user preferance in user config database  User want to write to VACATIONREQUEST on user_id=3 1. User have to have privilege userprefs_user_writeself_VACATIONREQUEST and has to be logged as user_id=3 2. User have to have privilege userprefs_user_write_VACATIONREQUEST_ROLEX and user_id=3 must be in role ROLEX
@@ -682,11 +768,8 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         async apiV1PreferencesSetUserPref(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await PreferencesApiAxiosParamCreator(configuration).apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -696,6 +779,7 @@ export const PreferencesApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const PreferencesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PreferencesApiFp(configuration)
     return {
         /**
          * Deletes global config preferences associated with provided key
@@ -705,7 +789,17 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesDelGlobalPref(key: string, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).apiV1PreferencesDelGlobalPref(key, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesDelGlobalPref(key, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Deletes public config preferences associated with provided key
+         * @summary Del Public Pref
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesDelPublicPref(key: string, options?: any): AxiosPromise<any> {
+            return localVarFp.apiV1PreferencesDelPublicPref(key, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -716,7 +810,7 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesDelUserPref(key: string, userId: number, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).apiV1PreferencesDelUserPref(key, userId, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesDelUserPref(key, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get global config preference associated with provided key.
@@ -726,7 +820,17 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesGetGlobalPref(key: string, options?: any): AxiosPromise<Entry> {
-            return PreferencesApiFp(configuration).apiV1PreferencesGetGlobalPref(key, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesGetGlobalPref(key, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get public config preference associated with provided key.
+         * @summary Get Public Pref
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesGetPublicPref(key: string, options?: any): AxiosPromise<PublicEntry> {
+            return localVarFp.apiV1PreferencesGetPublicPref(key, options).then((request) => request(axios, basePath));
         },
         /**
          * Get user config preference associated with provided key.
@@ -737,7 +841,7 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesGetUserPref(key: string, userId: number, options?: any): AxiosPromise<UserEntryPydantic> {
-            return PreferencesApiFp(configuration).apiV1PreferencesGetUserPref(key, userId, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesGetUserPref(key, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get user config preference associated with provided key.
@@ -747,7 +851,7 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesGetUserPrefBatch(userEntryBatchGet: UserEntryBatchGet, options?: any): AxiosPromise<Array<UserEntryPydantic>> {
-            return PreferencesApiFp(configuration).apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesGetUserPrefBatch(userEntryBatchGet, options).then((request) => request(axios, basePath));
         },
         /**
          * Stores global preferance in global config database
@@ -757,7 +861,17 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Stores public preferance in public config database
+         * @summary Set Public Pref
+         * @param {PublicEntryPydanticWithOverride} publicEntryPydanticWithOverride 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PreferencesSetPublicPref(publicEntryPydanticWithOverride: PublicEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
+            return localVarFp.apiV1PreferencesSetPublicPref(publicEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
         },
         /**
          * Stores user preferance in user config database  User want to write to VACATIONREQUEST on user_id=3 1. User have to have privilege userprefs_user_writeself_VACATIONREQUEST and has to be logged as user_id=3 2. User have to have privilege userprefs_user_write_VACATIONREQUEST_ROLEX and user_id=3 must be in role ROLEX
@@ -767,7 +881,7 @@ export const PreferencesApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         apiV1PreferencesSetUserPref(userEntryPydanticWithOverride: UserEntryPydanticWithOverride, options?: any): AxiosPromise<any> {
-            return PreferencesApiFp(configuration).apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
+            return localVarFp.apiV1PreferencesSetUserPref(userEntryPydanticWithOverride, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -789,6 +903,18 @@ export class PreferencesApi extends BaseAPI {
      */
     public apiV1PreferencesDelGlobalPref(key: string, options?: any) {
         return PreferencesApiFp(this.configuration).apiV1PreferencesDelGlobalPref(key, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Deletes public config preferences associated with provided key
+     * @summary Del Public Pref
+     * @param {string} key 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PreferencesApi
+     */
+    public apiV1PreferencesDelPublicPref(key: string, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesDelPublicPref(key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -814,6 +940,18 @@ export class PreferencesApi extends BaseAPI {
      */
     public apiV1PreferencesGetGlobalPref(key: string, options?: any) {
         return PreferencesApiFp(this.configuration).apiV1PreferencesGetGlobalPref(key, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get public config preference associated with provided key.
+     * @summary Get Public Pref
+     * @param {string} key 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PreferencesApi
+     */
+    public apiV1PreferencesGetPublicPref(key: string, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesGetPublicPref(key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -851,6 +989,18 @@ export class PreferencesApi extends BaseAPI {
      */
     public apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride: GlobalEntryPydanticWithOverride, options?: any) {
         return PreferencesApiFp(this.configuration).apiV1PreferencesSetGlobalPref(globalEntryPydanticWithOverride, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Stores public preferance in public config database
+     * @summary Set Public Pref
+     * @param {PublicEntryPydanticWithOverride} publicEntryPydanticWithOverride 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PreferencesApi
+     */
+    public apiV1PreferencesSetPublicPref(publicEntryPydanticWithOverride: PublicEntryPydanticWithOverride, options?: any) {
+        return PreferencesApiFp(this.configuration).apiV1PreferencesSetPublicPref(publicEntryPydanticWithOverride, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
